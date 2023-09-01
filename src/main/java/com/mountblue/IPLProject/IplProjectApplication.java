@@ -20,6 +20,7 @@ public class IplProjectApplication
 		matchServices.readDeliveriesData();
 		matchServices.extraRunsConcededPerTeam();
 		matchServices.topEconimcalBowlers();
+		matchServices.noOfTossWonByTeams();
 	}
 
 }

@@ -24,7 +24,6 @@ public class MatchServices
             while((line=br.readLine()) != null)
             {
                 String data[] = line.split(",");
-//                System.out.println(data[0]);
                 if (flag)
                 {
                     Match match = new Match(Integer.parseInt(data[0].trim()), Integer.parseInt(data[1]), data[4], data[5], data[6], data[10]);
@@ -36,7 +35,6 @@ public class MatchServices
         {
             throw new RuntimeException(e);
         }
-//        System.out.println(matchMap);
         line = "";
     }
     public void numberOfMatchesPerYear()
@@ -54,10 +52,14 @@ public class MatchServices
         Map<String, Integer> map = new HashMap<>();
         for (int id : matchMap.keySet())
         {
-//            System.out.println(matchMap.get(id).teamWon);
-//            if(!map.containsKey(matchMap.get(id).teamWon))
-//                System.out.println(matchMap.get(id).teamWon);
-            map.put(matchMap.get(id).teamWon, map.getOrDefault(matchMap.get(id).teamWon, 0)+1);
+            String teamWon = matchMap.get(id).teamWon;
+            if (!teamWon.isEmpty())
+                map.put(teamWon, map.getOrDefault(teamWon, 0)+1);
+            else
+            {
+                map.put("No result", map.getOrDefault("No result", 0)+1);
+            }
+
         }
         System.out.println("Number of matches won by teams");
         System.out.println(map);
@@ -135,5 +137,17 @@ public class MatchServices
         }
         System.out.println("Top economical bowlers");
         System.out.println(sortedMap);
+    }
+    public void noOfTossWonByTeams()
+    {
+        Map<String, Integer> map = new HashMap<>();
+
+        for (int id : matchMap.keySet())
+        {
+            String tossWonBy = matchMap.get(id).toss;
+            map.put(tossWonBy, map.getOrDefault(tossWonBy, 0)+1);
+        }
+        System.out.println("No of toss won by teams");
+        System.out.println(map);
     }
 }
