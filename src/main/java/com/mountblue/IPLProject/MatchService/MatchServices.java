@@ -28,10 +28,12 @@ public class MatchServices
                 {
                     Match match = new Match(Integer.parseInt(data[0].trim()), Integer.parseInt(data[1]), data[4], data[5], data[6], data[10]);
                     matchMap.put(match.id, match);
+
                 }
                 flag = true;
             }
-        } catch (IOException e)
+        }
+        catch (IOException e)
         {
             throw new RuntimeException(e);
         }
@@ -113,7 +115,8 @@ public class MatchServices
     public void topEconimcalBowlers()
     {
         Map<String, Integer> map = new HashMap<>();
-        ArrayList<Integer> list = new ArrayList<>();
+        Map<String, Integer> totalDeliveriesMap = new HashMap<>();
+        Map<String, Double> economyMap = new HashMap<>();
         for (int id : matchMap.keySet())
         {
             if (matchMap.get(id).year == 2015)
@@ -125,14 +128,23 @@ public class MatchServices
                         String bowler = deliveryMap.get(id2).bowler;
                         int runs = deliveryMap.get(id2).totalRuns;
                         map.put(bowler, map.getOrDefault(bowler, 0)+runs);
+                        totalDeliveriesMap.put(bowler, totalDeliveriesMap.getOrDefault(bowler, 0)+1);
                     }
                 }
             }
         }
-        List<Map.Entry<String, Integer>> entryList = new ArrayList<>(map.entrySet());
+
+        for(String bowler : map.keySet())
+        {
+            int runs = map.get(bowler);
+            int deliveries = totalDeliveriesMap.get(bowler);
+            double economy = ((double) runs/(double) deliveries )*6;
+            economyMap.put(bowler, economy);
+        }
+        List<Map.Entry<String, Double>> entryList = new ArrayList<>(economyMap.entrySet());
         entryList.sort(Map.Entry.comparingByValue());
-        Map<String, Integer> sortedMap = new LinkedHashMap<>();
-        for (Map.Entry<String, Integer> entry : entryList) {
+        Map<String, Double> sortedMap = new LinkedHashMap<>();
+        for (Map.Entry<String, Double> entry : entryList) {
             sortedMap.put(entry.getKey(), entry.getValue());
         }
         System.out.println("Top economical bowlers");
