@@ -63,11 +63,23 @@ public class IplProjectApplication
 		List<Delivery> deliveries = readDeliveryData();
 		extraRunsConcededPerTeam(deliveries, matches);
 		topEconomicalBowlers(deliveries, matches);
+		maximumSixesByBatsmanByVenue(deliveries, matches);
+	}
+
+	public static void maximumSixesByBatsmanByVenue(List<Delivery> deliveries, List<Match> matches)
+	{
+		Map<Integer, String> idAndVenueMap = new HashMap<>();
+		for (Match m : matches)
+		{
+			idAndVenueMap.put(m.getId(), m.getVenue());
+		}
+
+		Map<Integer, List<Map.Entry<String, Integer>>> batsmanSixesListCorrespondingVenue = new HashMap<>();
+
 	}
 
 
-
-	private static void topEconomicalBowlers(List<Delivery> deliveries, List<Match> matches)
+	public static void topEconomicalBowlers(List<Delivery> deliveries, List<Match> matches)
 	{
 		Map<String, Integer> totalRunsByBowlers = new HashMap<>();
         Map<String, Integer> totalDeliveriesByBowlers = new HashMap<>();
@@ -84,7 +96,7 @@ public class IplProjectApplication
 						String bowler = d.getBowler();
 						int runs = d.getTotalRuns();
 						totalRunsByBowlers.put(bowler, totalRunsByBowlers.getOrDefault(bowler, 0)+runs);
-						totalDeliveriesByBowlers.put(bowler, totalRunsByBowlers.getOrDefault(bowler, 0)+1);
+						totalDeliveriesByBowlers.put(bowler, totalDeliveriesByBowlers.getOrDefault(bowler, 0)+1);
 					}
 				}
 			}
@@ -106,7 +118,7 @@ public class IplProjectApplication
 		System.out.println(sortedMap);
 	}
 
-	private static void extraRunsConcededPerTeam(List<Delivery> deliveries, List<Match> matches)
+	public static void extraRunsConcededPerTeam(List<Delivery> deliveries, List<Match> matches)
 	{
 		Map<String, Integer> extraRunsByTeam = new HashMap<>();
 
@@ -126,7 +138,7 @@ public class IplProjectApplication
 		System.out.println(extraRunsByTeam);
 	}
 
-	private static List<Delivery> readDeliveryData() throws IOException {
+	public static List<Delivery> readDeliveryData() throws IOException {
 		List<Delivery> deliveries = new ArrayList<>();
 		String line = "";
 		try
@@ -180,7 +192,7 @@ public class IplProjectApplication
 		return deliveries;
 	}
 
-	private static void numberOfMatchesWonByTeam(List<Match> matches)
+	public static void numberOfMatchesWonByTeam(List<Match> matches)
 	{
 		Map<String, Integer> numberOfMatchesWonByTeam = new HashMap<>();
 		for(Match m : matches)
@@ -194,7 +206,7 @@ public class IplProjectApplication
 		System.out.println(numberOfMatchesWonByTeam);
 	}
 
-	private static void numberOfMatchesPerYear(List<Match> matches)
+	public static void numberOfMatchesPerYear(List<Match> matches)
 	{
 		Map<Integer, Integer> matchesPlayedPerYear = new HashMap<>();
 		for (Match m : matches)
@@ -246,5 +258,4 @@ public class IplProjectApplication
 		}
 		return matches;
 	}
-
 }
