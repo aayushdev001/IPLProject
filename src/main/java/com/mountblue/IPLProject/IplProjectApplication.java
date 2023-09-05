@@ -57,19 +57,15 @@ public class IplProjectApplication
 	{
 
 		SpringApplication.run(IplProjectApplication.class, args);
-//		MatchServices matchServices = new MatchServices();
 		List<Match> matches = readMatchData();
 		numberOfMatchesPerYear(matches);
 		numberOfMatchesWonByTeam(matches);
 		List<Delivery> deliveries = readDeliveryData();
 		extraRunsConcededPerTeam(deliveries, matches);
 		topEconomicalBowlers(deliveries, matches);
-//		matchServices.numberOfMatchesWonByTeams();
-//		matchServices.readDeliveriesData();
-//		matchServices.extraRunsConcededPerTeam();
-//		matchServices.topEconimcalBowlers();
-//		matchServices.noOfTossWonByTeams();
 	}
+
+
 
 	private static void topEconomicalBowlers(List<Delivery> deliveries, List<Match> matches)
 	{
@@ -122,7 +118,7 @@ public class IplProjectApplication
 				{
 					if (m.getId() == d.getMatchId())
 					{
-						extraRunsByTeam.put(d.getBowlingTeam(), extraRunsByTeam.getOrDefault(d.getBowlingTeam(), 0)+1);
+						extraRunsByTeam.put(d.getBowlingTeam(), extraRunsByTeam.getOrDefault(d.getBowlingTeam(), 0)+d.getExtraRun());
 					}
 				}
 			}
