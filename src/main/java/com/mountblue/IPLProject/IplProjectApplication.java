@@ -57,16 +57,22 @@ public class IplProjectApplication
 	{
 
 		SpringApplication.run(IplProjectApplication.class, args);
-		List<Match> matches = readMatchData();
-		numberOfMatchesPerYear(matches);
-		numberOfMatchesWonByTeam(matches);
-		List<Delivery> deliveries = readDeliveryData();
-		extraRunsConcededPerTeam(deliveries, matches);
-		topEconomicalBowlers(deliveries, matches);
-		maximumSixesByBatsmanByVenue(deliveries, matches);
+
+		IplProjectApplication i = new IplProjectApplication();
+
+		List<Match> matches = i.readMatchData();
+
+//		System.out.println(i.numberOfMatchesPerYear(matches));
+//		System.out.println(i.numberOfMatchesWonByTeam(matches));
+
+		List<Delivery> deliveries = i.readDeliveryData();
+
+//		System.out.println(i.extraRunsConcededPerTeam(deliveries, matches));
+		System.out.println(i.topEconomicalBowlers(deliveries, matches));
+//		i.maximumSixesByBatsmanByVenue(deliveries, matches);
 	}
 
-	public static void maximumSixesByBatsmanByVenue(List<Delivery> deliveries, List<Match> matches)
+	public void maximumSixesByBatsmanByVenue(List<Delivery> deliveries, List<Match> matches)
 	{
 		Map<Integer, String> idAndVenueMap = new HashMap<>();
 		for (Match m : matches)
@@ -79,7 +85,7 @@ public class IplProjectApplication
 	}
 
 
-	public static void topEconomicalBowlers(List<Delivery> deliveries, List<Match> matches)
+	public Map<String, Double> topEconomicalBowlers(List<Delivery> deliveries, List<Match> matches)
 	{
 		Map<String, Integer> totalRunsByBowlers = new HashMap<>();
         Map<String, Integer> totalDeliveriesByBowlers = new HashMap<>();
@@ -115,10 +121,10 @@ public class IplProjectApplication
 		{
 			sortedMap.put(e.getKey(), e.getValue());
 		}
-		System.out.println(sortedMap);
+		return sortedMap;
 	}
 
-	public static void extraRunsConcededPerTeam(List<Delivery> deliveries, List<Match> matches)
+	public Map<String, Integer> extraRunsConcededPerTeam(List<Delivery> deliveries, List<Match> matches)
 	{
 		Map<String, Integer> extraRunsByTeam = new HashMap<>();
 
@@ -135,10 +141,10 @@ public class IplProjectApplication
 				}
 			}
 		}
-		System.out.println(extraRunsByTeam);
+		return extraRunsByTeam;
 	}
 
-	public static List<Delivery> readDeliveryData() throws IOException {
+	public List<Delivery> readDeliveryData() throws IOException {
 		List<Delivery> deliveries = new ArrayList<>();
 		String line = "";
 		try
@@ -192,7 +198,7 @@ public class IplProjectApplication
 		return deliveries;
 	}
 
-	public static void numberOfMatchesWonByTeam(List<Match> matches)
+	public Map<String, Integer> numberOfMatchesWonByTeam(List<Match> matches)
 	{
 		Map<String, Integer> numberOfMatchesWonByTeam = new HashMap<>();
 		for(Match m : matches)
@@ -203,20 +209,20 @@ public class IplProjectApplication
 				numberOfMatchesWonByTeam.put("No result", numberOfMatchesWonByTeam.getOrDefault("No result", 0)+1);
 
 		}
-		System.out.println(numberOfMatchesWonByTeam);
+		return numberOfMatchesWonByTeam;
 	}
 
-	public static void numberOfMatchesPerYear(List<Match> matches)
+	public Map<Integer, Integer> numberOfMatchesPerYear(List<Match> matches)
 	{
 		Map<Integer, Integer> matchesPlayedPerYear = new HashMap<>();
 		for (Match m : matches)
 		{
 			matchesPlayedPerYear.put(m.getYear(), matchesPlayedPerYear.getOrDefault(m.getYear(),0)+1);
 		}
-		System.out.println(matchesPlayedPerYear);
+        return matchesPlayedPerYear;
 	}
 
-	public static List<Match> readMatchData() throws FileNotFoundException
+	public List<Match> readMatchData() throws FileNotFoundException
 	{
 		List<Match> matches = new ArrayList<>();
 		try
